@@ -1,0 +1,28 @@
+This format is currently in the development stage and is subject to change without notice.
+Except for strings, all values are in big-endian form (Least Significant Byte first).
+
+Address/Length (both dec)
+0	8	Format ID: "AWG_W_v1" (0x4157475F575F7631)
+8	2	Header Size (byte count from First Sample Address to start of Data ID): = 66
+10	8	First Sample Address: = 84
+18	4	Volts Per Step Fraction
+22	4	Volts Per Step Modulus
+26	4	Phase Offset Fraction*
+30	4	Phase Offset Modulus*
+34	4	DC Offset Volts Fraction*
+38	4	DC Offset Volts Modulus*
+42	1	Bit Resolution (1-32)
+43	1	Bytes Per Sample (1-4): Bit Resolution / 8; if (Bit Resolution % 8) != 0, Bytes Per Sample = (Bit Resolution + (8 - (Bit Resolution % 8))) / 8
+44	4	Repetition Rate*
+48	4	Repetition Count*: 0 for continuous
+52	8	Sampling Clock in Hz
+60	8	Sample Count
+68	4	Waveform Division*
+72	2	Channel Count
+74	2	Channel ID*
+76	8	Data ID: "AWG_DATA" (0x4157475F44415441)
+84		Start of Waveform Data (signed and interleaved per sample - Channel 0, Channel 1 etc.)
+
+* Can be ignored for a given application.
+
+Certain waveform formats have a zero voltage offset other than 0 (e.g. Rigol RDF (14 bit) has a zero voltage offset of 0xA000) and is to be factored in when converting formats.
